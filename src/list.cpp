@@ -26,7 +26,7 @@ void LinkedList::prepend(int value) {
 
 
 void LinkedList::append(int value) {
-    Node* node = new Node;
+    Node* node = new Node{value, nullptr};
     node->data = value;
 
     if(!head)

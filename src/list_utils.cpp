@@ -72,28 +72,24 @@ void reverse(LinkedList& list) {
 
 
 int nthFromEnd(const LinkedList& list, int n) {
+    if (n < 0) throw std::out_of_range("n must be non-negative");
 
-    if (n <= 0) throw out_of_range("Invalid n: n must be positive");
+    // First compute length
+    int len = length(list);
+    if (n > len) throw std::out_of_range("n is out of range");
 
-    LinkedList temp1 = list;
-    LinkedList temp2 = list;
+    int targetIndex = len - n - 1;  // convert nth from end to index from front
 
-
-    for (int i = 0; i < n; ++i) {
-        if (temp1.isEmpty()) {
-            throw out_of_range("Invalid n: n is larger than list length");
+    LinkedList::Node* cur = list.getHead();
+    int index = 0;
+    while (cur) {
+        if (index == targetIndex) {
+            return cur->data;
         }
-        temp1.removeFront();
+        cur = cur->next;
+        index++;
     }
 
-
-    while (!temp1.isEmpty()) {
-        temp1.removeFront();
-        temp2.removeFront();
-    }
-
-    if (temp2.isEmpty()) throw out_of_range("Invalid n");
-
-    return temp2.removeFront();
-
+    // Should not reach here if inputs are valid
+    throw std::runtime_error("Unexpected error in nthFromEnd");
 }
